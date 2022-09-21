@@ -1,6 +1,7 @@
 {
     "name": "verbleif/soft-deleteable-extension-bundle",
-    "description": "Fixed to work with php 8 attributes.",
+    "description": "Extension to Gedmo Softdeleteable, fork from Evence/SoftDeleteableListenerExtensionBundle that only supports Symfony 6+ and PHP 8.1+",
+    "license": "MIT",
     "authors": [{
         "name": "Sherin Bloemendaal",
         "homepage": "https://verbleif.com"
