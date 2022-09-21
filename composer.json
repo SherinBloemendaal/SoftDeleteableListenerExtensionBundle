@@ -1,17 +1,21 @@
 {
-    "name": "evence/soft-deleteable-extension-bundle",
-    "description": "Fixed to work with Symfony 5.0+. Adjusted from E-vence/SoftDeleteableListenerExtensionBundle.",
+    "name": "verbleif/soft-deleteable-extension-bundle",
+    "description": "Fixed to work with php 8 attributes.",
     "authors": [{
-        "name": "Ruben Harms",
-        "homepage": "http://www.rubenharms.nl/"
+        "name": "Sherin Bloemendaal",
+        "homepage": "https://verbleif.com"
     }],
     "keywords": ["soft-deleteable"],
     "require": {
-        "php": ">=7.2.5",
-        "symfony/framework-bundle": "^5.0 || ^6.0"
+        "php": ">=8.1",
+        "doctrine/orm": "^2.7",
+        "gedmo/doctrine-extensions": "^3.4",
+        "doctrine/common": "^3.0",
+        "symfony/property-access": "^6.0",
+        "symfony/framework-bundle": "^6.0"
     },
     "require-dev": {
-        "symfony/console": "^5.0 || ^6.0"
+        "symfony/console": "^6.0"
     },
     "target-dir": "Evence/Bundle/SoftDeleteableExtensionBundle",
     "minimum-stability": "dev",
