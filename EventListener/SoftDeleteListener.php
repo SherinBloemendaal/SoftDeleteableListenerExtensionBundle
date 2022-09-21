@@ -8,10 +8,11 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Evence\Bundle\SoftDeleteableExtensionBundle\Exception\OnSoftDeleteUnknownTypeException;
+use Evence\Bundle\SoftDeleteableExtensionBundle\Mapping\Attribute\onSoftDelete;
+use Evence\Bundle\SoftDeleteableExtensionBundle\Mapping\Attribute\onSoftDeleteSuccessor;
+use Evence\Bundle\SoftDeleteableExtensionBundle\Mapping\Type;
 use Exception;
 use Gedmo\SoftDeleteable\SoftDeleteableListener as GedmoSoftDeleteableListener;
-use Mapping\Attribute\onSoftDeleteSuccessor;
-use Mapping\Types;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\PropertyAccess\PropertyAccess;
@@ -70,14 +71,14 @@ class SoftDeleteListener
                 }
 
                 // If no onSoftDelete attribute is defined, skip it.
-                $attributes = $property->getAttributes(\Mapping\Attribute\onSoftDelete::class);
+                $attributes = $property->getAttributes(onSoftDelete::class);
                 if (empty($attributes)) {
                     continue;
                 }
 
                 $onDelete = $attributes[0];
                 $type = $onDelete->getArguments()['type'];
-                if (null === ($type = Types::tryFrom($type))) {
+                if (null === ($type = Type::tryFrom($type))) {
                     throw new OnSoftDeleteUnknownTypeException($type);
                 }
 
@@ -144,9 +145,9 @@ class SoftDeleteListener
                 if ($objects) {
                     foreach ($objects as $object) {
                         match ($type) {
-                            Types::SET_NULL => $this->processOnDeleteSetNullOperation($object, $property, $meta, $args),
-                            Types::SUCCESSOR => $this->processOnDeleteSuccessorOperation($object, $property, $meta, $args),
-                            Types::CASCADE => $this->processOnDeleteCascadeOperation($object, $reflectionClass, $args)
+                            Type::SET_NULL => $this->processOnDeleteSetNullOperation($object, $property, $meta, $args),
+                            Type::SUCCESSOR => $this->processOnDeleteSuccessorOperation($object, $property, $meta, $args),
+                            Type::CASCADE => $this->processOnDeleteCascadeOperation($object, $reflectionClass, $args)
                         };
                     }
                 }
@@ -266,9 +267,9 @@ class SoftDeleteListener
         );
     }
 
-    protected function checkRelationshipSupportsSetNull(Types $type, object $relationship): bool
+    protected function checkRelationshipSupportsSetNull(Type $type, object $relationship): bool
     {
-        if ($type !== Types::SET_NULL) {
+        if ($type !== Type::SET_NULL) {
             return true;
         }
 

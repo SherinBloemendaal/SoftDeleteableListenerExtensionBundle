@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mapping;
+namespace Evence\Bundle\SoftDeleteableExtensionBundle\Mapping;
 
-enum Types: string
+enum Type: string
 {
     case SET_NULL = 'SET_NULL';
     case SUCCESSOR = 'SUCCESSOR';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mapping\Attribute;
+namespace Evence\Bundle\SoftDeleteableExtensionBundle\Mapping\Attribute;
 
 use Attribute;
 
