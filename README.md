@@ -4,71 +4,77 @@ Extensions to Gedmo's softDeleteable listener which has had this issue reported 
 
 Provides the `onSoftDelete` functionality to an association of a doctrine entity. This functionality behaves like the SQL `onDelete` function  (when the owner side is deleted). *It will prevent Doctrine errors when a reference is soft-deleted.*
 
+## Prerequisites
+
+This bundle requires Symfony 6.0+ and PHP 8.1+
+
+## Installation
+
+Add evence/soft-deleteable-extension-bundle to your `composer.json` file:
+
+```
+php composer.phar require "evence/soft-deleteable-extension-bundle"
+```
+
+### Register the bundle
+
+Register bundle into config/bundles.php (Flex did it automatically):
+
+``` php
+# config/bundles.php
+
+return [
+    ...
+    new Evence\Bundle\SoftDeleteableExtensionBundle\EvenceSoftDeleteableExtensionBundle(),
+];
+```
+
+## Getting started
+
 **Cascade delete the entity**
 
-To (soft-)delete an entity when its parent record is soft-deleted :
+To (soft-)delete an entity when its parent record is soft-deleted:
 
 ```
- @Evence\onSoftDelete(type="CASCADE")
+#[Evence\onSoftDelete(type: Types::CASCADE)]
 ```
 
-**Set reference to null (instead of deleting the entity)**
+Set reference to null (instead of deleting the entity)
 
 ```
- @Evence\onSoftDelete(type="SET NULL")
+#[Evence\onSoftDelete(type: Types::SET_NULL)]
 ```
 
-**Replace reference by some property marked as successor (must be of same entity class)**
+Replace reference by some property marked as successor (must be of same entity class)
 
 ```
- @Evence\onSoftDelete(type="SUCCESSOR")
+#[Evence\onSoftDelete(type: Types::SUCCESSOR)]
 ```
 
-## Entity example
+## Full example
 
 ``` php
 <?php
 
-namespace AppBundle\Entity;
+declare(strict_types=1);
+
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Evence\Bundle\SoftDeleteableExtensionBundle\Mapping\Annotation as Evence;
+use Evence\Bundle\SoftDeleteableExtensionBundle\Mapping\Attribute as Evence;
 
-/*
- * @ORM\Entity(repositoryClass="AppBundle\Entity\AdvertisementRepository")
- * @Gedmo\SoftDeleteable(fieldName="deletedAt")
- */
+#[ORM\Entity(repositoryClass: 'AppBundle\Entity\AdvertisementRepository')]
+#[Gedmo\SoftDeleteable(fieldName: 'deletedAt')]
 class Advertisement
 {
-
     ...
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Shop")
-     * @ORM\JoinColumn(name="shop_id", referencedColumnName="id")
-     * @Evence\onSoftDelete(type="CASCADE")
-     */
+    #[Evence\onSoftDelete(type: Types::CASCADE)]
+    #[ORM\ManyToOne(targetEntity: 'App\Entity\Shop')]
+    #[ORM\JoinColumn(nullable: false)]
     private $shop;
 
     ...
 }
-```
-
-## Install
-
-**Install with composer:**
-```
-composer require evence/soft-deleteable-extension-bundle
-```
-
-Add the bundle to `app/AppKernel.php`:
-
-``` php
-# app/AppKernel.php
-
-$bundles = array(
-    ...
-    new Evence\Bundle\SoftDeleteableExtensionBundle\EvenceSoftDeleteableExtensionBundle(),
-);
 ```
