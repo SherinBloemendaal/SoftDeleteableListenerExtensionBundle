@@ -1,12 +1,14 @@
 # SoftDeleteableListenerExtensionBundle
 
+### This bundle only works with Symfony ^6.0 and PHP ^8.1
+<hr />
 Extensions to Gedmo's softDeleteable listener which has had this issue reported since 2012 : https://github.com/Atlantic18/DoctrineExtensions/issues/505.
 
 Provides the `onSoftDelete` functionality to an association of a doctrine entity. This functionality behaves like the SQL `onDelete` function  (when the owner side is deleted). *It will prevent Doctrine errors when a reference is soft-deleted.*
 
 ## Prerequisites
 
-This bundle requires Symfony 6.0+ and PHP 8.1+
+**This bundle requires Symfony 6.0+ and PHP 8.1+**
 
 ## Installation
 
