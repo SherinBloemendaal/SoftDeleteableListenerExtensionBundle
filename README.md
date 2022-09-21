@@ -38,19 +38,19 @@ return [
 To (soft-)delete an entity when its parent record is soft-deleted:
 
 ```
-#[Evence\onSoftDelete(type: Types::CASCADE)]
+#[Evence\onSoftDelete(type: Type::CASCADE)]
 ```
 
 Set reference to null (instead of deleting the entity)
 
 ```
-#[Evence\onSoftDelete(type: Types::SET_NULL)]
+#[Evence\onSoftDelete(type: Type::SET_NULL)]
 ```
 
 Replace reference by some property marked as successor (must be of same entity class)
 
 ```
-#[Evence\onSoftDelete(type: Types::SUCCESSOR)]
+#[Evence\onSoftDelete(type: Type::SUCCESSOR)]
 ```
 
 ## Full example
@@ -72,7 +72,7 @@ class Advertisement
 {
     ...
 
-    #[Evence\onSoftDelete(type: Types::CASCADE)]
+    #[Evence\onSoftDelete(type: Type::CASCADE)]
     #[ORM\ManyToOne(targetEntity: 'App\Entity\Shop')]
     #[ORM\JoinColumn(nullable: false)]
     private $shop;
